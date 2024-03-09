@@ -20,6 +20,9 @@ dependencies:
   '@vinejs/vine':
     specifier: ^1.7.1
     version: 1.7.1
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   luxon:
     specifier: ^3.4.4
     version: 3.4.4

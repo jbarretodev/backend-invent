@@ -15,7 +15,7 @@ export default class HistoryProduct extends BaseModel {
   declare type_op: number
 
   @column()
-  declare propduct_id: number
+  declare product_id: number
 
   @column()
   declare user_id: number

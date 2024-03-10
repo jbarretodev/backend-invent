@@ -9,9 +9,9 @@ export default class EmailUtil {
   static async sendActiveUserEmail(user: User) {
     const resend = new Resend(env.get('API_KEY_RESEND'))
 
-    const payload:ActiveTokenDe = {
+    const payload: ActiveTokenDe = {
       user,
-      expireAt: dayjs().hour(1)
+      expireAt: dayjs().hour(1),
     }
 
     const token = encryption.encrypt(payload)
@@ -20,8 +20,8 @@ export default class EmailUtil {
 
     await user.save()
 
-    const url = `http://${env.get('HOST')}:${env.get('PORT')}/active-account/${token}`
-    
+    const url = `http://${env.get('HOST')}:${env.get('PORT')}/api/v1/active-account/${token}`
+
     console.log(url)
 
     const { data, error } = await resend.emails.send({
@@ -32,7 +32,7 @@ export default class EmailUtil {
       html: `Hola! <strong>${user.fullName}</strong> Para activar la cuenta debes hacer click <a href="${url}">Aqui!</a>`,
     })
 
-    console.log(data,error)
+    console.log(data, error)
 
     if (error) return null
 

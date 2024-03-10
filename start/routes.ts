@@ -10,6 +10,8 @@ import AuthController from '#controllers/auth_controller'
 import UsersController from '#controllers/users_controller'
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
+import ProductsController from '#controllers/products_controller'
+import ProductsHistoriesController from '#controllers/products_histories_controller'
 
 router.get('/', async () => {
   return {
@@ -21,7 +23,7 @@ router
   .group(() => {
     router
       .group(() => {
-        router.get('active-account/:token', [UsersController,'activeUser'])
+        router.get('active-account/:token', [UsersController, 'activeUser'])
 
         //group to auth
         router
@@ -39,8 +41,36 @@ router
         router
           .group(() => {
             router.post('/', [UsersController, 'createUser'])
+            router.patch('/update-password', [UsersController, 'updatePasswordUser'])
           })
           .prefix('users')
+
+        //group to products
+        router
+          .group(() => {
+            router.post('/', [ProductsController, 'createProduct'])
+            router.get('/by-code/:code', [ProductsController, 'getProductByCode'])
+            router.get('/by-id/:id', [ProductsController, 'getProductById'])
+            router.get('/', [ProductsController, 'getProduct'])
+          })
+          .prefix('products')
+          .use(
+            middleware.auth({
+              guards: ['api'],
+            })
+          )
+
+        //group to history_product
+        router
+          .group(() => {
+            router.post('/', [ProductsHistoriesController, 'newOperationProduct'])
+          })
+          .prefix('history-product')
+          .use(
+            middleware.auth({
+              guards: ['api'],
+            })
+          )
       })
       .prefix('v1')
   })

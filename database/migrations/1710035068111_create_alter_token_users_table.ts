@@ -4,7 +4,7 @@ export default class extends BaseSchema {
   protected tableName = 'alter_token_users'
 
   async up() {
-    this.schema.alterTable('users',(table) => {
+    this.schema.alterTable('users', (table) => {
       table.text('token').nullable()
     })
   }

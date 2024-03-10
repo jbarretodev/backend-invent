@@ -24,28 +24,43 @@ export default class UsersController {
     return ctx.response.created({ user: userCreated.serialize() })
   }
 
-  async activeUser(ctx:HttpContext){
+  async activeUser(ctx: HttpContext) {
     try {
-      const decryptedToken:ActiveTokenDe = encryption.decrypt(ctx.request.param('token')) as ActiveTokenDe
+      const decryptedToken: ActiveTokenDe = encryption.decrypt(
+        ctx.request.param('token')
+      ) as ActiveTokenDe
 
-      if(!dayjs(decryptedToken.expireAt).isBefore(dayjs())){
-        return ctx.response.badRequest({error: true, message:"Error! toke had expired!"})
+      if (!dayjs(decryptedToken.expireAt).isBefore(dayjs())) {
+        return ctx.response.badRequest({ error: true, message: 'Error! toke had expired!' })
       }
 
       const existToken = await this.userService.checkTokenActiveUser(ctx.request.param('token'))
-      
-      if(!existToken) return ctx.response.badRequest({error:true,message:"token not found o expired"})
+
+      if (!existToken)
+        return ctx.response.badRequest({ error: true, message: 'token not found o expired' })
 
       await this.userService.activeUser(decryptedToken.user.id)
 
       return ctx.response.noContent()
     } catch (e) {
       console.log(e)
-      return ctx.response.badRequest({error:true,message:"error processing token"})
+      return ctx.response.badRequest({ error: true, message: 'error processing token' })
     }
   }
 
   async getUserByEmailNoRequest(email: string) {
     return await this.userService.getUserByEmail(email)
+  }
+
+  async updatePasswordUser(ctx: HttpContext) {
+    const rsUpdate = await this.userService.updatePasswordUser(
+      ctx.request.param('id') as number,
+      ctx.request.input('password')
+    )
+
+    if (!rsUpdate)
+      return ctx.response.badRequest({ error: true, message: 'Error changing password user' })
+
+    return ctx.response.noContent()
   }
 }

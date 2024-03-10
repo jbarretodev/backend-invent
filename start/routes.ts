@@ -21,6 +21,8 @@ router
   .group(() => {
     router
       .group(() => {
+        router.get('active-account/:token', [UsersController,'activeUser'])
+
         //group to auth
         router
           .group(() => {

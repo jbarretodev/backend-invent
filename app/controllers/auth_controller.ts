@@ -12,14 +12,14 @@ export default class AuthController {
 
     const { email, password } = ctx.request.only(['email', 'password'])
 
+    const user = await User.verifyCredentials(email, password)
+
     if (!(await this.isActiveUser(email))) {
       return ctx.response.badRequest({
         error: true,
         message: 'Error! You must to verifate the email first!',
       })
     }
-
-    const user = await User.verifyCredentials(email, password)
 
     const token = await User.accessTokens.create(user)
 

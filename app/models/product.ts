@@ -14,6 +14,9 @@ export default class Product extends BaseModel {
   declare quantity: number
 
   @column()
+  declare price: number
+
+  @column()
   declare code: string
 
   @column()

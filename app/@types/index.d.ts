@@ -15,6 +15,7 @@ export interface ActiveTokenDe {
 export interface ProductCreate {
   name: string
   quantity: number
+  price: number
   code: string
   image?: string
 }

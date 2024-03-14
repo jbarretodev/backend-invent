@@ -26,9 +26,13 @@ export default class HistoryProduct extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @belongsTo(() => Product)
+  @belongsTo(() => Product, {
+    foreignKey: 'product_id',
+  })
   declare product: BelongsTo<typeof Product>
 
-  @belongsTo(() => User)
+  @belongsTo(() => User, {
+    foreignKey: 'user_id',
+  })
   declare user: BelongsTo<typeof User>
 }

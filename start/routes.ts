@@ -63,7 +63,8 @@ router
         //group to history_product
         router
           .group(() => {
-            router.post('/', [ProductsHistoriesController, 'newOperationProduct'])
+            router.post( '/', [ ProductsHistoriesController, 'newOperationProduct' ] )
+            router.get('/', [ProductsHistoriesController, 'historyOperations'])
           })
           .prefix('history-product')
           .use(

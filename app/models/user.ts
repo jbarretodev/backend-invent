@@ -6,6 +6,7 @@ import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import { DbAccessTokensProvider, AccessToken } from '@adonisjs/auth/access_tokens'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import HistoryProduct from './history_product.js'
+import Invoice from './invoice.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -52,6 +53,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => HistoryProduct)
   declare historyProducts: HasMany<typeof HistoryProduct>
+
+  @hasMany(() => Invoice)
+  declare detail_invoice: HasMany<typeof Invoice>
 
   // @beforeCreate()
   // static async hashPassword(user: User) {

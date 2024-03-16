@@ -4,7 +4,6 @@ import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 import { ErrorOpeHistoryProduct, HistoryProductCreate } from './../@types/index.js'
 import HistoryProductService from '#services/history_product_service'
-import HistoryProduct from '#models/history_product'
 
 @inject()
 export default class ProductsHistoriesController {
@@ -38,7 +37,7 @@ export default class ProductsHistoriesController {
 
   async historyOperations(ctx: HttpContext) {
     return ctx.response.ok({
-      historyOperations: await HistoryProduct.query().preload('product').preload('user'),
+      historyOperations: await this.historyProductService.getHistoryOperation(),
     })
   }
 }

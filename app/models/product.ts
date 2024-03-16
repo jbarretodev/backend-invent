@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import HistoryProduct from './history_product.js'
+import DetailInvoice from './detail_invoice.js'
 
 export default class Product extends BaseModel {
   @column({ isPrimary: true })
@@ -30,4 +31,7 @@ export default class Product extends BaseModel {
 
   @hasMany(() => HistoryProduct)
   declare historyProducs: HasMany<typeof HistoryProduct>
+
+  @hasMany(() => DetailInvoice)
+  declare detail_invoice: HasMany<typeof DetailInvoice>
 }

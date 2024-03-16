@@ -5,4 +5,9 @@ export default class HistoryProductService {
   async saveHistory(dataHistory: HistoryProductCreate) {
     return await HistoryProduct.create(dataHistory)
   }
+
+  async getHistoryOperation ()
+  {
+    return await HistoryProduct.query().preload('product').preload('user')
+  }
 }

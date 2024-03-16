@@ -31,3 +31,19 @@ export interface HistoryProductCreate {
   product_id: number
   user_id: number
 }
+
+export interface InvoiceCreate {
+  user_id: number
+  num_operation?: string
+  payment_method: string
+  status: boolean
+  total_invoice: number
+}
+
+export interface InvoiceDetail {
+  invoice_id: number
+  product_id: number
+  quantity: number
+  unit_price: number
+  total_line: number
+}

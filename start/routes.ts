@@ -12,6 +12,7 @@ import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 import ProductsController from '#controllers/products_controller'
 import ProductsHistoriesController from '#controllers/products_histories_controller'
+import InvoicesController from '#controllers/invoices_controller'
 
 router.get('/', async () => {
   return {
@@ -72,6 +73,14 @@ router
               guards: ['api'],
             })
           )
+
+        //group to invoices
+        router
+          .group(() => {
+            router.post('/', [InvoicesController, 'makeInvoice'])
+          })
+          .prefix('invoices')
+          .use(middleware.auth({ guards: ['api'] }))
       })
       .prefix('v1')
   })

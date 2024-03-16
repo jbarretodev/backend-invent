@@ -6,7 +6,7 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.decimal( 'total_invoice', 8, 2 )
+      table.decimal('total_invoice', 8, 2)
       table.integer('user_id').unsigned().references('users.id').onDelete('CASCADE')
       table.boolean('status').defaultTo(false)
       table.timestamp('created_at')

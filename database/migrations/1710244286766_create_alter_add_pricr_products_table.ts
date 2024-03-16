@@ -5,7 +5,7 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.alterTable('products', (table) => {
-      table.decimal('price', 10,2).defaultTo(0)
+      table.decimal('price', 10, 2).defaultTo(0)
     })
   }
 

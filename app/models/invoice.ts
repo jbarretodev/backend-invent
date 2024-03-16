@@ -17,6 +17,12 @@ export default class Invoice extends BaseModel {
   @column()
   declare user_id: number
 
+  @column()
+  declare num_operation: string
+
+  @column()
+  declare payment_method: string
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
@@ -26,8 +32,8 @@ export default class Invoice extends BaseModel {
   @hasMany(() => DetailInvoice)
   declare detail_invoice: HasMany<typeof DetailInvoice>
 
-  @belongsTo( () => User, {
-    foreignKey: "user_id"
-  } )
+  @belongsTo(() => User, {
+    foreignKey: 'user_id',
+  })
   declare user: BelongsTo<typeof User>
 }

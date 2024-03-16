@@ -6,8 +6,7 @@ export default class HistoryProductService {
     return await HistoryProduct.create(dataHistory)
   }
 
-  async getHistoryOperation ()
-  {
+  async getHistoryOperation() {
     return await HistoryProduct.query().preload('product').preload('user')
   }
 }

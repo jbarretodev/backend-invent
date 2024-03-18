@@ -27,4 +27,8 @@ export default class InvoicesController {
 
     return ctx.response.badRequest({ error: true, message: 'try then' })
   }
+
+  async getInvoices(ctx: HttpContext) {
+    return ctx.response.ok({ invoices: await this.invoiceService.getInvoices() })
+  }
 }

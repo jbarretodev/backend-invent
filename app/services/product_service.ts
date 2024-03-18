@@ -1,5 +1,7 @@
 import Product from '#models/product'
+import { escape } from 'querystring'
 import { ErrorOpeHistoryProduct, ProductCreate } from '../@types/index.js'
+import db from '@adonisjs/lucid/services/db'
 
 export default class ProductService {
   async createNewProduct(dataProduct: ProductCreate) {
@@ -33,5 +35,18 @@ export default class ProductService {
     product.quantity = typeOp === 1 ? product.quantity + quantity : product.quantity - quantity
 
     return await product.save()
+  }
+
+  async searcherProducts(searchString: string) {
+    // return await Product.query()
+    //   .whereILike('name', `%${searchString}%`)
+    //   .orderBy('name', 'desc')
+
+    
+    return await db
+      .query()
+      .from('products')
+      .select('name', 'id', 'price', 'quantity')
+      .whereILike('name', `%${escape(searchString)}%`)
   }
 }

@@ -7,6 +7,9 @@ export default class HistoryProductService {
   }
 
   async getHistoryOperation() {
-    return await HistoryProduct.query().preload('product').preload('user')
+    return await HistoryProduct.query()
+      .preload('product')
+      .preload('user')
+      .orderBy('createdAt', 'desc')
   }
 }

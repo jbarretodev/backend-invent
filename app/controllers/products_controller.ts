@@ -38,4 +38,15 @@ export default class ProductsController {
   async getProduct(ctx: HttpContext) {
     return ctx.response.ok({ products: await this.productService.getProducts() })
   }
+
+  async searcherProduct(ctx: HttpContext) {
+    const queryString = ctx.request.qs()
+
+    if (!Object.keys(queryString).includes('searcher'))
+      return ctx.response.badRequest({ error: true, message: 'there is no params' })
+
+    return ctx.response.ok({
+      products: await this.productService.searcherProducts(queryString.searcher),
+    })
+  }
 }

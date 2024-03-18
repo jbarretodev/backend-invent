@@ -53,6 +53,7 @@ router
             router.get('/by-code/:code', [ProductsController, 'getProductByCode'])
             router.get('/by-id/:id', [ProductsController, 'getProductById'])
             router.get('/', [ProductsController, 'getProduct'])
+            router.get('/searcher', [ProductsController, 'searcherProduct'])
           })
           .prefix('products')
           .use(
@@ -78,6 +79,7 @@ router
         router
           .group(() => {
             router.post('/', [InvoicesController, 'makeInvoice'])
+            router.get('/', [InvoicesController, 'getInvoices'])
           })
           .prefix('invoices')
           .use(middleware.auth({ guards: ['api'] }))

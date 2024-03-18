@@ -6,8 +6,7 @@ export default class InvoiceService {
     return await Invoice.create(dataInvoice)
   }
 
-  async getInvoices ()
-  {
-    return ( await Invoice.query().orderBy( 'createdAt', 'desc' ) )
+  async getInvoices() {
+    return await Invoice.query().orderBy('createdAt', 'desc')
   }
 }

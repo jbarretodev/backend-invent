@@ -42,7 +42,6 @@ export default class ProductService {
     //   .whereILike('name', `%${searchString}%`)
     //   .orderBy('name', 'desc')
 
-    
     return await db
       .query()
       .from('products')

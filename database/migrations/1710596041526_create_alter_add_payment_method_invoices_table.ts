@@ -6,7 +6,7 @@ export default class extends BaseSchema {
   async up() {
     this.schema.alterTable('invoices', (table) => {
       table.enum('payment_method', ['biopago', 'Bs Efectvo', '$ efectivo', 'TDD', 'TDC'])
-      table.string('num_operation').notNullable()
+      table.string('num_operation').nullable()
     })
   }
 

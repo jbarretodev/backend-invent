@@ -1,4 +1,4 @@
-import InvoiceDetailService from '#services/invoice_controller_service'
+import InvoiceDetailService from '#services/invoice_detail_service'
 import InvoiceService from '#services/invoice_service'
 import { makeInvoice } from '#validators/invoice'
 import { inject } from '@adonisjs/core'
@@ -29,6 +29,44 @@ export default class InvoicesController {
   }
 
   async getInvoices(ctx: HttpContext) {
-    return ctx.response.ok({ invoices: await this.invoiceService.getInvoices() })
+    const params = ctx.request.qs()
+
+    if (!params.dateSearch)
+      return ctx.response.badRequest({ error: true, message: 'Error request' })
+
+    return ctx.response.ok({ invoices: await this.invoiceService.getInvoices(params.dateSearch) })
+  }
+
+  async getInvoiceDetail(ctx: HttpContext) {
+    if (!ctx.request.param('id'))
+      return ctx.response.badRequest({ error: true, message: 'id missing' })
+
+    const invocesDetail = await this.invoiceService.getDetailInvoice(
+      Number(ctx.request.param('id'))
+    )
+
+    return invocesDetail
+      ? ctx.response.ok(invocesDetail)
+      : ctx.response.notFound({ error: true, message: 'invoice not found' })
+  }
+
+  async getInvoicesConsolidated(ctx: HttpContext) {
+    const qs = ctx.request.qs()
+    console.log(ctx.request.qs())
+    
+    if (!qs.date)
+      return ctx.response.badRequest({ error: true, message: 'date is missing' })
+
+    const invoices = await this.invoiceService.getInvoicesConsolidated(ctx.request.qs().date)
+
+    const sum = invoices.reduce((acc, invoice) => acc + Number(invoice.total_invoice), 0)
+
+    return ctx.response.ok({
+      invoices_consolidate: sum,
+      count_invoices: invoices.length,
+      invoices: invoices,
+      invoices_not_paid: invoices.filter(invoice => invoice.status === false).length,
+      invoices_paid: invoices.filter(invoice => invoice.status === true).length,
+    })
   }
 }

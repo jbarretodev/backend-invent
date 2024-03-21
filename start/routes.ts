@@ -80,6 +80,8 @@ router
           .group(() => {
             router.post('/', [InvoicesController, 'makeInvoice'])
             router.get('/', [InvoicesController, 'getInvoices'])
+            router.get('/details/:id', [InvoicesController, 'getInvoiceDetail'])
+            router.get('/consolidate', [InvoicesController, 'getInvoicesConsolidated'])
           })
           .prefix('invoices')
           .use(middleware.auth({ guards: ['api'] }))

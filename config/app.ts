@@ -18,7 +18,6 @@ export const appKey = new Secret(env.get('APP_KEY'))
 export const http = defineConfig({
   generateRequestId: true,
   allowMethodSpoofing: false,
-
   /**
    * Enabling async local storage will let you access HTTP context
    * from anywhere inside your application.

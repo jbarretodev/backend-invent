@@ -29,9 +29,13 @@ export default class DetailInvoice extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @belongsTo(() => Invoice)
+  @belongsTo(() => Invoice, {
+    foreignKey: 'invoice_id',
+  })
   declare invoice: BelongsTo<typeof Invoice>
 
-  @belongsTo(() => Product)
+  @belongsTo(() => Product, {
+    foreignKey: 'product_id',
+  })
   declare products: BelongsTo<typeof Product>
 }

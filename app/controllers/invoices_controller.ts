@@ -4,12 +4,16 @@ import { makeInvoice } from '#validators/invoice'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 import { InvoiceCreate } from '../@types/index.js'
+import ProductService from '#services/product_service'
+import HistoryProductService from '#services/history_product_service'
 
 @inject()
 export default class InvoicesController {
   constructor(
     protected invoiceService: InvoiceService,
-    protected invoiceDetailService: InvoiceDetailService
+    protected invoiceDetailService: InvoiceDetailService,
+    protected productService: ProductService,
+    protected historyProductService: HistoryProductService
   ) {}
 
   async makeInvoice(ctx: HttpContext) {
@@ -23,7 +27,24 @@ export default class InvoicesController {
 
     const details = await this.invoiceDetailService.saveDatail(detailsWithIdInvoice)
 
-    if (invoice) return ctx.response.created({ invoice, details })
+    details.forEach((detail) => {
+      this.productService
+        .updateStockProduct(detail.product_id, detail.quantity, 0)
+        .then((__rs) => console.log('stock updated!'))
+    })
+
+    details.forEach((detail) => {
+      this.historyProductService
+        .saveHistory({
+          product_id: detail.product_id,
+          quantity: detail.quantity,
+          type_op: 0,
+          user_id: ctx.auth.user?.id as number,
+        })
+        .then((__rs) => console.log('history created!'))
+    })
+
+    if (invoice) return ctx.response.created({ invoice: invoice.serialize(), details })
 
     return ctx.response.badRequest({ error: true, message: 'try then' })
   }

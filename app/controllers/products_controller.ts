@@ -14,7 +14,10 @@ export default class ProductsController {
 
     payload.code = Util.generateRandomHash()
 
-    const product = await this.productService.createNewProduct(payload as ProductCreate,ctx.auth.user?.id)
+    const product = await this.productService.createNewProduct(
+      payload as ProductCreate,
+      ctx.auth.user?.id
+    )
 
     return ctx.response.created({ product })
   }

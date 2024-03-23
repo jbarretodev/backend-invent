@@ -16,7 +16,7 @@ export default class ProductsHistoriesController {
 
     payload.user_id = ctx.auth.user?.id
 
-    const rsCheck = await this.productService.updateAccountProduct(
+    const rsCheck = await this.productService.updateStockProduct(
       payload.product_id,
       payload.quantity,
       payload.type_op

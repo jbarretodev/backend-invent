@@ -4,19 +4,18 @@ import { ErrorOpeHistoryProduct, ProductCreate } from '../@types/index.js'
 import db from '@adonisjs/lucid/services/db'
 import HistoryProductService from './history_product_service.js'
 
-
 export default class ProductService {
-  async createNewProduct(dataProduct: ProductCreate,userId:number | undefined) {
+  async createNewProduct(dataProduct: ProductCreate, userId: number | undefined) {
     const product = await Product.create(dataProduct)
     const history = new HistoryProductService()
-    
+
     await history.saveHistory({
       product_id: product.id,
       user_id: userId as number,
       quantity: product.quantity,
       type_op: 1,
     })
-    
+
     return product
   }
 
@@ -32,7 +31,7 @@ export default class ProductService {
     return await Product.find(id)
   }
 
-  async updateAccountProduct(id: number, quantity: number, typeOp: number) {
+  async updateStockProduct(id: number, quantity: number, typeOp: number) {
     const product = await Product.find(id)
 
     if (!product) return null

@@ -21,7 +21,7 @@ export default class Product extends BaseModel {
   declare code: string
 
   @column()
-  declare sell_by:string
+  declare sell_by: string
 
   @column()
   declare image: string

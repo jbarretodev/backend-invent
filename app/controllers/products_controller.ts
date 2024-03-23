@@ -14,7 +14,7 @@ export default class ProductsController {
 
     payload.code = Util.generateRandomHash()
 
-    const product = await this.productService.createNewProduct(payload as ProductCreate)
+    const product = await this.productService.createNewProduct(payload as ProductCreate,ctx.auth.user?.id)
 
     return ctx.response.created({ product })
   }
@@ -31,7 +31,7 @@ export default class ProductsController {
     const product = await this.productService.getProductById(ctx.request.param('id'))
 
     return product
-      ? ctx.response.ok({ product })
+      ? ctx.response.ok(product.serialize())
       : ctx.response.notFound({ error: true, message: 'product not found' })
   }
 
@@ -48,5 +48,44 @@ export default class ProductsController {
     return ctx.response.ok({
       products: await this.productService.searcherProducts(queryString.searcher),
     })
+  }
+
+  async changePriceProduct(ctx: HttpContext) {
+    const newPrice = ctx.request.input('price')
+
+    if (!newPrice) return ctx.response.badRequest({ error: true, message: 'price is missing' })
+
+    const rs = await this.productService.changePriceProduct(
+      Number(ctx.request.param('id')),
+      Number(newPrice)
+    )
+
+    if (!rs) return ctx.response.badRequest({ error: true, message: 'error changing price' })
+
+    return ctx.response.ok(rs)
+  }
+
+  async changeNameProduct(ctx: HttpContext) {
+    const newName = ctx.request.input('name')
+
+    if (!newName) return ctx.response.badRequest({ error: true, message: 'error name is missing' })
+
+    const rs = await this.productService.changeNameProduct(Number(ctx.request.param('id')), newName)
+
+    if (!rs) return ctx.response.badRequest({ error: true, message: 'error changing name' })
+
+    return ctx.response.ok(rs)
+  }
+
+  async changeSellByProduct(ctx: HttpContext) {
+    const mode = ctx.request.input('mode')
+
+    if (!mode) return ctx.response.badRequest({ error: true, message: 'error mode is missing' })
+
+    const rs = await this.productService.changeSellByProduct(Number(ctx.request.param('id')), mode)
+
+    if (!rs) return ctx.response.badRequest({ error: true, message: 'error changing mode' })
+
+    return ctx.response.ok(rs)
   }
 }

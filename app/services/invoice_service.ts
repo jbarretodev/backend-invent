@@ -25,6 +25,6 @@ export default class InvoiceService {
   }
 
   async getInvoicesConsolidated(date: string) {
-    return await Invoice.query().where('date','=',date)
+    return await Invoice.query().where('date', '=', date)
   }
 }

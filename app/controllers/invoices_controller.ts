@@ -52,10 +52,8 @@ export default class InvoicesController {
 
   async getInvoicesConsolidated(ctx: HttpContext) {
     const qs = ctx.request.qs()
-    console.log(ctx.request.qs())
-    
-    if (!qs.date)
-      return ctx.response.badRequest({ error: true, message: 'date is missing' })
+
+    if (!qs.date) return ctx.response.badRequest({ error: true, message: 'date is missing' })
 
     const invoices = await this.invoiceService.getInvoicesConsolidated(ctx.request.qs().date)
 
@@ -65,8 +63,8 @@ export default class InvoicesController {
       invoices_consolidate: sum,
       count_invoices: invoices.length,
       invoices: invoices,
-      invoices_not_paid: invoices.filter(invoice => invoice.status === false).length,
-      invoices_paid: invoices.filter(invoice => invoice.status === true).length,
+      invoices_not_paid: invoices.filter((invoice) => invoice.status === false).length,
+      invoices_paid: invoices.filter((invoice) => invoice.status === true).length,
     })
   }
 }

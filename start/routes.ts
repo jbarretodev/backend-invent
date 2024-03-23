@@ -42,7 +42,7 @@ router
         router
           .group(() => {
             router.post('/', [UsersController, 'createUser'])
-            router.patch('/update-password', [UsersController, 'updatePasswordUser'])
+            router.patch('/update-password', [UsersController, 'changePasswordUser'])
           })
           .prefix('users')
 
@@ -54,6 +54,9 @@ router
             router.get('/by-id/:id', [ProductsController, 'getProductById'])
             router.get('/', [ProductsController, 'getProduct'])
             router.get('/searcher', [ProductsController, 'searcherProduct'])
+            router.patch('/:id/update-price', [ProductsController, 'changePriceProduct'])
+            router.patch('/:id/update-name', [ProductsController, 'changeNameProduct'])
+            router.patch('/:id/update-mode', [ProductsController, 'changeSellByProduct'])
           })
           .prefix('products')
           .use(

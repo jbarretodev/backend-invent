@@ -31,13 +31,16 @@ export default class UsersController {
       ) as ActiveTokenDe
 
       if (!dayjs(decryptedToken.expireAt).isBefore(dayjs())) {
+        await this.userService.deleteUser(decryptedToken.user.email)
         return ctx.response.badRequest({ error: true, message: 'Error! toke had expired!' })
       }
 
       const existToken = await this.userService.checkTokenActiveUser(ctx.request.param('token'))
 
-      if (!existToken)
+      if (!existToken) {
+        await this.userService.deleteUser(decryptedToken.user.email)
         return ctx.response.badRequest({ error: true, message: 'token not found o expired' })
+      }
 
       await this.userService.activeUser(decryptedToken.user.id)
 
@@ -48,19 +51,31 @@ export default class UsersController {
     }
   }
 
-  async getUserByEmailNoRequest(email: string) {
-    return await this.userService.getUserByEmail(email)
-  }
+  // async getUserByEmailNoRequest(email: string) {
+  //   return await this.userService.getUserByEmail(email)
+  // }
 
-  async updatePasswordUser(ctx: HttpContext) {
-    const rsUpdate = await this.userService.updatePasswordUser(
-      ctx.request.param('id') as number,
-      ctx.request.input('password')
-    )
+  // async updatePasswordUser(ctx: HttpContext) {
+  //   const rsUpdate = await this.userService.updatePasswordUser(
+  //     ctx.request.param('id') as number,
+  //     ctx.request.input('password')
+  //   )
 
-    if (!rsUpdate)
-      return ctx.response.badRequest({ error: true, message: 'Error changing password user' })
+  //   if (!rsUpdate)
+  //     return ctx.response.badRequest({ error: true, message: 'Error changing password user' })
 
-    return ctx.response.noContent()
+  //   return ctx.response.noContent()
+  // }
+
+  async changePasswordUser(ctx: HttpContext) {
+    const newPassword = ctx.request.input('password')
+
+    if (newPassword) return ctx.response.badRequest({ error: true, message: 'password is missing' })
+
+    const rs = await this.userService.chengePasswordUser(newPassword, ctx.auth.user!.id)
+
+    return !rs
+      ? ctx.response.badRequest({ error: true, message: 'Error change password' })
+      : ctx.response.noContent()
   }
 }

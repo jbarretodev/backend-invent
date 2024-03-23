@@ -18,6 +18,7 @@ export interface ProductCreate {
   price: number
   code: string
   image?: string
+  sell_by?: string
 }
 
 export type ErrorOpeHistoryProduct = {

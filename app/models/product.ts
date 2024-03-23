@@ -21,6 +21,9 @@ export default class Product extends BaseModel {
   declare code: string
 
   @column()
+  declare sell_by:string
+
+  @column()
   declare image: string
 
   @column.dateTime({ autoCreate: true })

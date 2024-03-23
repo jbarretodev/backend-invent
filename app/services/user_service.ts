@@ -37,4 +37,18 @@ export default class UserService {
     user.password = await hash.make(newPass)
     return await user.save()
   }
+
+  async chengePasswordUser(newPass: string, id: number) {
+    const user = await User.find(id)
+
+    if (!user) return undefined
+
+    user.password = await hash.make(newPass)
+    await user.save()
+    return user.serialize()
+  }
+
+  async deleteUser(email: string) {
+    return await User.query().where('email', email).delete()
+  }
 }

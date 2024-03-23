@@ -20,6 +20,9 @@ export default class HistoryProduct extends BaseModel {
   @column()
   declare user_id: number
 
+  @column()
+  declare date: Date
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

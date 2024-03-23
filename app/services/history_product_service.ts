@@ -6,8 +6,8 @@ export default class HistoryProductService {
     return await HistoryProduct.create(dataHistory)
   }
 
-  async getHistoryOperation() {
-    return await HistoryProduct.query()
+  async getHistoryOperation(date:string) {
+    return await HistoryProduct.query().where('date','<=',date)
       .preload('product')
       .preload('user')
       .orderBy('createdAt', 'desc')

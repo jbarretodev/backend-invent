@@ -36,8 +36,10 @@ export default class ProductsHistoriesController {
   }
 
   async historyOperations(ctx: HttpContext) {
+    const qs = ctx.request.qs()
+    
     return ctx.response.ok({
-      historyOperations: await this.historyProductService.getHistoryOperation(),
+      historyOperations: await this.historyProductService.getHistoryOperation(qs.date),
     })
   }
 }

@@ -48,3 +48,9 @@ export interface InvoiceDetail {
   unit_price: number
   total_line: number
 }
+
+export interface ClientCreate{
+  fullName: string
+  identification: string
+  phone?: string
+}

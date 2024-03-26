@@ -13,6 +13,7 @@ import { middleware } from '#start/kernel'
 import ProductsController from '#controllers/products_controller'
 import ProductsHistoriesController from '#controllers/products_histories_controller'
 import InvoicesController from '#controllers/invoices_controller'
+import ClientsController from '#controllers/clients_controller'
 
 router.get('/', async () => {
   return {
@@ -87,6 +88,14 @@ router
             router.get('/consolidate', [InvoicesController, 'getInvoicesConsolidated'])
           })
           .prefix('invoices')
+          .use(middleware.auth({ guards: ['api'] }))
+
+        //group to clients
+        router
+          .group(() => {
+            router.get("/",[ClientsController,'getAllClients'])
+          })
+          .prefix('clients')
           .use(middleware.auth({ guards: ['api'] }))
       })
       .prefix('v1')

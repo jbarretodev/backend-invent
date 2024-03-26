@@ -3,6 +3,7 @@ import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
 import DetailInvoice from './detail_invoice.js'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import User from './user.js'
+import Client from './client.js'
 
 export default class Invoice extends BaseModel {
   @column({ isPrimary: true })
@@ -16,6 +17,9 @@ export default class Invoice extends BaseModel {
 
   @column()
   declare user_id: number
+
+  @column()
+  declare client_id: number | null
 
   @column()
   declare num_operation: string
@@ -41,4 +45,9 @@ export default class Invoice extends BaseModel {
     foreignKey: 'user_id',
   })
   declare user: BelongsTo<typeof User>
+
+  @belongsTo(() => Client, {
+    foreignKey: 'client_id',
+  })
+  declare client: BelongsTo<typeof Client>
 }

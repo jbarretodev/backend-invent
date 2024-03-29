@@ -6,6 +6,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import { InvoiceCreate } from '../@types/index.js'
 import ProductService from '#services/product_service'
 import HistoryProductService from '#services/history_product_service'
+import ClientService from '#services/client_service'
 
 @inject()
 export default class InvoicesController {
@@ -13,12 +14,25 @@ export default class InvoicesController {
     protected invoiceService: InvoiceService,
     protected invoiceDetailService: InvoiceDetailService,
     protected productService: ProductService,
-    protected historyProductService: HistoryProductService
+    protected historyProductService: HistoryProductService,
+    protected clientService: ClientService
   ) {}
 
   async makeInvoice(ctx: HttpContext) {
     const payload = await ctx.request.validateUsing(makeInvoice)
     const body = { ...payload.invoice, user_id: ctx.auth.user?.id }
+
+    let client = null
+
+    if (!payload.invoice.client_id) {
+      client = await this.clientService.saveNewClient({
+        fullName: payload.invoice.full_name_client as string,
+        identification: payload.invoice.identification as string,
+      })
+    } else client = payload.invoice.client_id
+
+    body['client_id'] = typeof client === 'object' ? client.id : client
+
     const invoice = await this.invoiceService.makeInvoice(body as InvoiceCreate)
 
     const detailsWithIdInvoice = payload.details.map((detail) => {

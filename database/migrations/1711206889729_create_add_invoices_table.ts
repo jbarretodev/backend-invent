@@ -5,12 +5,18 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.alterTable(this.tableName, (table) => {
-      table.integer('client_id').unsigned().references('id').inTable('clients').onDelete('CASCADE').nullable()
+      table
+        .integer('client_id')
+        .unsigned()
+        .references('id')
+        .inTable('clients')
+        .onDelete('CASCADE')
+        .nullable()
     })
   }
 
   async down() {
-    this.schema.alterTable(this.tableName, table => {
+    this.schema.alterTable(this.tableName, (table) => {
       table.dropColumn('client_id')
     })
   }

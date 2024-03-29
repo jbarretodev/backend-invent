@@ -7,6 +7,9 @@ export const makeInvoice = vine.compile(
       status: vine.boolean(),
       num_operation: vine.string().optional(),
       payment_method: vine.string(),
+      full_name_client: vine.string().optional(),
+      identification: vine.string().optional(),
+      client_id: vine.number().optional(),
     }),
     details: vine
       .array(

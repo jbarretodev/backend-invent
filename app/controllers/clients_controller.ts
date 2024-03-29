@@ -19,4 +19,12 @@ export default class ClientsController {
       ? ctx.response.ok(client)
       : ctx.response.notFound({ error: true, message: 'client not found' })
   }
+
+  async getClientWithOutInvoice(ctx: HttpContext) {
+    const client = await this.clientService.getClientWithOutInvoice(
+      ctx.request.param('identification')
+    )
+
+    return client ? ctx.response.ok(client) : ctx.response.notFound({ error: true, message: 'client not found' }) 
+  }
 }

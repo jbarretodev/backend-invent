@@ -12,4 +12,10 @@ export default class ClientService {
   async getAllClients() {
     return await Client.query().preload('invoices')
   }
+
+  async getClientWithOutInvoice(identification: string) {
+    const client = await Client.findBy('identification', identification)
+
+    return client ? client : null
+  }
 }

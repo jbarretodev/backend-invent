@@ -93,7 +93,8 @@ router
         //group to clients
         router
           .group(() => {
-            router.get("/",[ClientsController,'getAllClients'])
+            router.get('/', [ClientsController, 'getAllClients'])
+            router.get('/:identification', [ClientsController, 'getClientWithOutInvoice'])
           })
           .prefix('clients')
           .use(middleware.auth({ guards: ['api'] }))

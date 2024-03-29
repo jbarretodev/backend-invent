@@ -39,6 +39,7 @@ export interface InvoiceCreate {
   payment_method: string
   status: boolean
   total_invoice: number
+  client_id?: number
 }
 
 export interface InvoiceDetail {
@@ -49,7 +50,7 @@ export interface InvoiceDetail {
   total_line: number
 }
 
-export interface ClientCreate{
+export interface ClientCreate {
   fullName: string
   identification: string
   phone?: string

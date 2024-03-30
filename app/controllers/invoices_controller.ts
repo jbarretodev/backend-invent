@@ -31,7 +31,10 @@ export default class InvoicesController {
       })
     } else client = payload.invoice.client_id
 
-    body['client_id'] = typeof client === 'object' ? client.id : client
+    body[ 'client_id' ] = typeof client === 'object' ? client.id : client
+    
+    delete body.full_name_client
+    delete body.identification
 
     const invoice = await this.invoiceService.makeInvoice(body as InvoiceCreate)
 

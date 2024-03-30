@@ -7,7 +7,9 @@ export default class Client extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @column()
+  @column({
+    columnName: 'fullName',
+  })
   declare fullName: string
 
   @column()

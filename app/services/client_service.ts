@@ -1,7 +1,8 @@
 import Client from '#models/client'
 import { ClientCreate } from '../@types/index.js'
 export default class ClientService {
-  async saveNewClient(client: ClientCreate) {
+  async saveNewClient ( client: ClientCreate )
+  {
     return await Client.create(client)
   }
 

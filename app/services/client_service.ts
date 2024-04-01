@@ -1,8 +1,7 @@
 import Client from '#models/client'
 import { ClientCreate } from '../@types/index.js'
 export default class ClientService {
-  async saveNewClient ( client: ClientCreate )
-  {
+  async saveNewClient(client: ClientCreate) {
     return await Client.create(client)
   }
 
@@ -18,5 +17,9 @@ export default class ClientService {
     const client = await Client.findBy('identification', identification)
 
     return client ? client : null
+  }
+
+  async getClientsWithOutInvoice() {
+    return await Client.all()
   }
 }

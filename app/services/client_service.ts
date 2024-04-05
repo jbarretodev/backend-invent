@@ -19,6 +19,10 @@ export default class ClientService {
     return client ? client : null
   }
 
+  async getClientInvoices(id: number) {
+    return await Client.query().where('id', id).preload('invoices').first()
+  }
+
   async getClientsWithOutInvoice() {
     return await Client.all()
   }

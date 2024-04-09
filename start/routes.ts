@@ -87,6 +87,7 @@ router
             router.get('/details/:id', [InvoicesController, 'getInvoiceDetail'])
             router.get('/consolidate', [InvoicesController, 'getInvoicesConsolidated'])
             router.get('/by-client/:id', [InvoicesController, 'getInvoicesByClient'])
+            router.get('/print-invoice/:id',[InvoicesController, 'generateInvoice'])
           })
           .prefix('invoices')
           .use(middleware.auth({ guards: ['api'] }))

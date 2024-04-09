@@ -28,8 +28,21 @@ export default class InvoiceService {
     return await Invoice.query().where('date', '=', date)
   }
 
-  async getInvoicesByClient ( id: number )
-  {
+  async getInvoicesByClient(id: number) {
     return await Invoice.query().where('client_id', id)
+  }
+
+  async prepareDataPrintInvoice(idInvoice: number) {
+    const invoiceClient = await Invoice.query()
+      .where('id', idInvoice)
+      .preload('client')
+      .preload('detail_invoice', (query) => {
+        query.preload('products')
+      })
+      .first()
+
+    if (!invoiceClient) return undefined
+
+    return invoiceClient
   }
 }

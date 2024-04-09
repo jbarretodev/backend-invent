@@ -24,4 +24,4 @@ yarn-error.log
 # Platform specific
 .DS_Store
 
-/app/file/invoices/*
+/app/files/invoices/*

@@ -159,11 +159,18 @@ export default class InvoicesController {
       const rsInvoicePdf = await Util.generateInvoicePdf(dataPrintInvoice, pathFile)
 
       return rsInvoicePdf
-        ? ctx.response.ok({ path: pathFile })
+        ? ctx.response.ok({ file: pathFile.split('/').pop() })
         : ctx.response.badRequest({ error: true, message: 'error creating invoice' })
     } catch (error) {
       console.log(error)
       return ctx.response.internalServerError({ error: true, message: 'error' })
     }
+  }
+
+  async getInvoicePdf ( ctx: HttpContext )
+  { 
+    const query = ctx.request.qs()
+    const filePath = path.join( app.makePath( 'app/files/invoices' ), query.file )
+    return ctx.response.attachment( filePath )
   }
 }

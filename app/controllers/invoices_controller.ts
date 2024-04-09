@@ -3,11 +3,15 @@ import InvoiceService from '#services/invoice_service'
 import { makeInvoice } from '#validators/invoice'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
-import { InvoiceCreate } from '../@types/index.js'
+import { InvoiceCreate, InvoicePDF } from '../@types/index.js'
 import ProductService from '#services/product_service'
 import HistoryProductService from '#services/history_product_service'
 import ClientService from '#services/client_service'
-
+import InfoCommerceService from '#services/info_commerce_service'
+import Util from '../utils/Util.js'
+import dayjs from 'dayjs'
+import path from 'path'
+import app from '@adonisjs/core/services/app'
 @inject()
 export default class InvoicesController {
   constructor(
@@ -15,7 +19,8 @@ export default class InvoicesController {
     protected invoiceDetailService: InvoiceDetailService,
     protected productService: ProductService,
     protected historyProductService: HistoryProductService,
-    protected clientService: ClientService
+    protected clientService: ClientService,
+    protected infoCommerceService: InfoCommerceService
   ) {}
 
   async makeInvoice(ctx: HttpContext) {
@@ -108,5 +113,64 @@ export default class InvoicesController {
 
   async getInvoicesByClient(ctx: HttpContext) {
     return ctx.response.ok(await this.invoiceService.getInvoicesByClient(ctx.request.param('id')))
+  }
+
+  async generateInvoice(ctx: HttpContext) {
+    try {
+      const clientInvoice = await this.invoiceService.prepareDataPrintInvoice(
+        ctx.request.param('id')
+      )
+
+      const infoCommerce = await this.infoCommerceService.getInfoCommerce()
+
+      if (!clientInvoice || !infoCommerce)
+        return ctx.response.notFound({ error: true, message: 'invoice or commerce not found' })
+
+      const dataPrintInvoice: InvoicePDF = {
+        emitted: {
+          identification: infoCommerce.identification,
+          name: infoCommerce.name,
+          location: infoCommerce.address || '',
+        },
+        recepter: {
+          identification: clientInvoice.client.identification,
+          name: clientInvoice.client.fullName,
+          location: '',
+        },
+        date: clientInvoice.date.toString().split('T')[0],
+        number: clientInvoice.id,
+        iva: 12,
+        subtotal: Number(clientInvoice.total_invoice),
+        total: Number(clientInvoice.total_invoice),
+        products: clientInvoice.detail_invoice.map((elem) => {
+          return {
+            code: elem.products.code,
+            description: elem.products.name,
+            quantity: Number(elem.quantity),
+            unit_price: Number(elem.products.price),
+            amount: Number(elem.products.price) * Number(elem.quantity),
+          }
+        }),
+        id_invoice: clientInvoice.id,
+      }
+
+      const pathFile = app.makePath(`app/files/invoices/invoice_${dayjs().toISOString()}.pdf`)
+
+      const rsInvoicePdf = await Util.generateInvoicePdf(dataPrintInvoice, pathFile)
+
+      return rsInvoicePdf
+        ? ctx.response.ok({ file: pathFile.split('/').pop() })
+        : ctx.response.badRequest({ error: true, message: 'error creating invoice' })
+    } catch (error) {
+      console.log(error)
+      return ctx.response.internalServerError({ error: true, message: 'error' })
+    }
+  }
+
+  async getInvoicePdf ( ctx: HttpContext )
+  { 
+    const query = ctx.request.qs()
+    const filePath = path.join( app.makePath( 'app/files/invoices' ), query.file )
+    return ctx.response.attachment( filePath )
   }
 }

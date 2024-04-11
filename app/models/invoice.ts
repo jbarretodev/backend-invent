@@ -30,6 +30,9 @@ export default class Invoice extends BaseModel {
   @column.date()
   declare date: DateTime
 
+  @column()
+  declare subtotal: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

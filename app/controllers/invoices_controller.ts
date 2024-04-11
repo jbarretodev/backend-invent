@@ -167,10 +167,9 @@ export default class InvoicesController {
     }
   }
 
-  async getInvoicePdf ( ctx: HttpContext )
-  { 
+  async getInvoicePdf(ctx: HttpContext) {
     const query = ctx.request.qs()
-    const filePath = path.join( app.makePath( 'app/files/invoices' ), query.file )
-    return ctx.response.attachment( filePath )
+    const filePath = path.join(app.makePath('app/files/invoices'), query.file)
+    return ctx.response.attachment(filePath)
   }
 }

@@ -103,3 +103,8 @@ export interface Product {
   price: string
   sellBy: string
 }
+
+export interface IvaCreate {
+  value: number
+  active: boolean
+}

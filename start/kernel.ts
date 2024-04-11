@@ -44,3 +44,7 @@ router.use([
 export const middleware = router.named({
   auth: () => import('#middleware/auth_middleware'),
 })
+
+import { jobDeleteTokenAuth,jobDeleteFiles } from '../app/cron/index.js'
+jobDeleteTokenAuth.start()
+jobDeleteFiles.start()

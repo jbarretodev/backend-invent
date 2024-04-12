@@ -91,4 +91,17 @@ export default class ProductsController {
 
     return ctx.response.ok(rs)
   }
+
+  async changeIsExempt(ctx: HttpContext) {
+    const isExempt = ctx.request.input('exempt')
+
+    if (!ctx.request.hasBody())
+      return ctx.response.badRequest({ error: true, message: 'error isExempt is missing' })
+
+    const rs = await this.productService.changeIsExempt(Number(ctx.request.param('id')), isExempt)
+
+    if (!rs) return ctx.response.badRequest({ error: true, message: 'error changing isExempt' })
+
+    return ctx.response.ok(rs)
+  }
 }

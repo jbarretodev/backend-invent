@@ -59,6 +59,7 @@ router
             router.patch('/:id/update-price', [ProductsController, 'changePriceProduct'])
             router.patch('/:id/update-name', [ProductsController, 'changeNameProduct'])
             router.patch('/:id/update-mode', [ProductsController, 'changeSellByProduct'])
+            router.patch('/:id/update-exempt', [ProductsController, 'changeIsExempt'])
           })
           .prefix('products')
           .use(
@@ -108,7 +109,7 @@ router
         //group to iva
         router
           .group(() => {
-            router.get( '/', [IvasController, 'getCurrentInfoIva' ] )
+            router.get('/', [IvasController, 'getCurrentInfoIva'])
             router.post('/', [IvasController, 'createNewValueIva'])
           })
           .prefix('iva')

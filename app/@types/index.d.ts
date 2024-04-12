@@ -19,6 +19,7 @@ export interface ProductCreate {
   code: string
   image?: string
   sell_by?: string
+  exempt: boolean  
 }
 
 export type ErrorOpeHistoryProduct = {

@@ -10,6 +10,7 @@ export const makeInvoice = vine.compile(
       full_name_client: vine.string().optional(),
       identification: vine.string().optional(),
       client_id: vine.number().optional(),
+      subtotal: vine.number(),
     }),
     details: vine
       .array(
@@ -18,6 +19,7 @@ export const makeInvoice = vine.compile(
           product_id: vine.number(),
           quantity: vine.number(),
           unit_price: vine.number(),
+          iva: vine.number(),
           total_line: vine.number(),
         })
       )

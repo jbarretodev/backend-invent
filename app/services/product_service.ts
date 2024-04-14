@@ -56,7 +56,7 @@ export default class ProductService {
     return await db
       .query()
       .from('products')
-      .select('name', 'id', 'price', 'quantity', 'sell_by')
+      .select('name', 'id', 'price', 'quantity', 'sell_by', 'exempt')
       .whereILike('name', `%${escape(searchString)}%`)
   }
 

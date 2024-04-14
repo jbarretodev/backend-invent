@@ -19,6 +19,7 @@ export interface ProductCreate {
   code: string
   image?: string
   sell_by?: string
+  exempt: boolean  
 }
 
 export type ErrorOpeHistoryProduct = {
@@ -102,4 +103,9 @@ export interface Product {
   updatedAt: string
   price: string
   sellBy: string
+}
+
+export interface IvaCreate {
+  value: number
+  active: boolean
 }

@@ -21,6 +21,9 @@ export default class Product extends BaseModel {
   declare code: string
 
   @column()
+  declare exempt: boolean
+
+  @column()
   declare sell_by: string
 
   @column()

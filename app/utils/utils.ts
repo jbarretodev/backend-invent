@@ -18,10 +18,12 @@ export const generateHeaderPDF = (invoiceData: InvoicePDF, doc: PDFKit.PDFDocume
 }
 
 export const generateFooterPDF = (doc: PDFKit.PDFDocument) => {
-  doc.fontSize(10).text('Payment is due within 15 days. Thank you for your business.', 50, 780, {
-    align: 'center',
-    width: 500,
-  })
+  doc
+    .fontSize(10)
+    .text('El pago vence dentro de los 15 días. Gracias por hacer negocios.', 50, 780, {
+      align: 'center',
+      width: 500,
+    })
 }
 
 export const generateCustomerInformationPDF = (doc: PDFKit.PDFDocument, invoice: InvoicePDF) => {
@@ -74,28 +76,20 @@ export const generateTableRow = (
     .text(lineTotal, 0, y, { align: 'right' })
 }
 
-export const generateInvoiceTablePDF = (doc:PDFKit.PDFDocument, invoice:InvoicePDF) => {
-  let i;
-  const invoiceTableTop = 330;
+export const generateInvoiceTablePDF = (doc: PDFKit.PDFDocument, invoice: InvoicePDF) => {
+  let i
+  const invoiceTableTop = 330
 
-  doc.font("Helvetica-Bold");
-  
-  generateTableRow(
-    doc,
-    invoiceTableTop,
-    "Codigo",
-    "Nombre",
-    "Costo Unitario",
-    "Cantidad",
-    "Total"
-  );
-  
-  generateHr( doc, invoiceTableTop + 20 );
-  doc.font("Helvetica");
+  doc.font('Helvetica-Bold')
+
+  generateTableRow(doc, invoiceTableTop, 'Codigo', 'Nombre', 'Costo Unitario', 'Cantidad', 'Total')
+
+  generateHr(doc, invoiceTableTop + 20)
+  doc.font('Helvetica')
 
   for (i = 0; i < invoice.products.length; i++) {
-    const item = invoice.products[i];
-    const position = invoiceTableTop + (i + 1) * 30;
+    const item = invoice.products[i]
+    const position = invoiceTableTop + (i + 1) * 30
     generateTableRow(
       doc,
       position,
@@ -104,44 +98,27 @@ export const generateInvoiceTablePDF = (doc:PDFKit.PDFDocument, invoice:InvoiceP
       item.unit_price.toString(),
       item.quantity.toString(),
       item.amount.toString()
-    );
+    )
 
-    generateHr(doc, position + 20);
+    generateHr(doc, position + 20)
   }
 
-  const subtotalPosition = invoiceTableTop + (i + 1) * 30;
-  generateTableRow(
-    doc,
-    subtotalPosition,
-    "",
-    "",
-    "Subtotal",
-    "",
-    invoice.subtotal.toString()
-  );
+  const subtotalPosition = invoiceTableTop + (i + 1) * 30
+  generateTableRow(doc, subtotalPosition, '', '', 'Subtotal', '', invoice.subtotal.toString())
 
-  const paidToDatePosition = subtotalPosition + 20;
+  const paidToDatePosition = subtotalPosition + 20
   generateTableRow(
     doc,
     paidToDatePosition,
-    "",
-    "",
-    "Pagado Hasta la Fecha",
-    "",
+    '',
+    '',
+    'Pagado Hasta la Fecha',
+    '',
     invoice.total.toString()
-  );
+  )
 
-  const duePosition = paidToDatePosition + 25;
-  doc.font("Helvetica-Bold");
-  generateTableRow(
-    doc,
-    duePosition,
-    "",
-    "",
-    "Balance Adeudar",
-    "",
-    invoice.total.toString()
-  );
-  doc.font("Helvetica");
-
+  const duePosition = paidToDatePosition + 25
+  doc.font('Helvetica-Bold')
+  generateTableRow(doc, duePosition, '', '', 'Balance Adeudar', '', invoice.total.toString())
+  doc.font('Helvetica')
 }

@@ -56,7 +56,7 @@ export default class ProductService {
     return await db
       .query()
       .from('products')
-      .select('name', 'id', 'price', 'quantity','sell_by')
+      .select('name', 'id', 'price', 'quantity', 'sell_by', 'exempt')
       .whereILike('name', `%${escape(searchString)}%`)
   }
 
@@ -86,6 +86,17 @@ export default class ProductService {
     if (!product) return undefined
 
     await product.merge({ sell_by: mode }).save()
+
+    return product.serialize()
+  }
+
+  async changeIsExempt(id: number, newValue: boolean) {
+    const product = await Product.find(id)
+    if (!product) return undefined
+
+    product.exempt = newValue
+
+    await product.save()
 
     return product.serialize()
   }

@@ -23,6 +23,9 @@ export default class DetailInvoice extends BaseModel {
   @column()
   declare total_line: number
 
+  @column()
+  declare iva: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

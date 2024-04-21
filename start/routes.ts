@@ -15,6 +15,7 @@ import ProductsHistoriesController from '#controllers/products_histories_control
 import InvoicesController from '#controllers/invoices_controller'
 import ClientsController from '#controllers/clients_controller'
 import IvasController from '#controllers/ivas_controller'
+import InfoCommercesController from '#controllers/info_commerces_controller'
 
 router.get('/', async () => {
   return {
@@ -113,6 +114,15 @@ router
             router.post('/', [IvasController, 'createNewValueIva'])
           })
           .prefix('iva')
+          .use(middleware.auth({ guards: ['api'] }))
+
+        //group to info_commerce
+        router
+          .group(() => {
+            router.get('/', [InfoCommercesController, 'getInfoCommerce'])
+            router.post('/', [InfoCommercesController, 'updateInfoCommerce'])
+          })
+          .prefix('commerce')
           .use(middleware.auth({ guards: ['api'] }))
       })
       .prefix('v1')

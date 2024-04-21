@@ -38,7 +38,7 @@ export default class UserService {
     return await user.save()
   }
 
-  async chengePasswordUser(newPass: string, id: number) {
+  async changePasswordUser(newPass: string, id: number) {
     const user = await User.find(id)
 
     if (!user) return undefined

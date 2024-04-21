@@ -19,7 +19,7 @@ export interface ProductCreate {
   code: string
   image?: string
   sell_by?: string
-  exempt: boolean  
+  exempt: boolean
 }
 
 export type ErrorOpeHistoryProduct = {
@@ -108,4 +108,11 @@ export interface Product {
 export interface IvaCreate {
   value: number
   active: boolean
+}
+
+export interface CommerceCreate {
+  name: string
+  address: string
+  phone: string
+  identification: string
 }

@@ -72,7 +72,7 @@ export default class UsersController {
 
     if (newPassword) return ctx.response.badRequest({ error: true, message: 'password is missing' })
 
-    const rs = await this.userService.chengePasswordUser(newPassword, ctx.auth.user!.id)
+    const rs = await this.userService.changePasswordUser(newPassword, ctx.auth.user!.id)
 
     return !rs
       ? ctx.response.badRequest({ error: true, message: 'Error change password' })

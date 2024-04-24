@@ -22,10 +22,10 @@ export default class Invoice extends BaseModel {
   declare client_id: number | null
 
   @column()
-  declare num_operation: string
+  declare num_operation: string | null
 
   @column()
-  declare payment_method: string
+  declare payment_method: string | null
 
   @column.date()
   declare date: DateTime

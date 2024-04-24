@@ -45,4 +45,8 @@ export default class InvoiceService {
 
     return invoiceClient
   }
+
+  async getInvoicesNotPaid() {
+    return await Invoice.query().where('status', false).preload('client').preload('user')
+  }
 }

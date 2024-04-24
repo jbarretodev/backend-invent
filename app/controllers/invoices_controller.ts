@@ -172,4 +172,8 @@ export default class InvoicesController {
     const filePath = path.join(app.makePath('app/files/invoices'), query.file)
     return ctx.response.attachment(filePath)
   }
+
+  async getInvoicesNotPaid(ctx: HttpContext) {
+    return ctx.response.ok(await this.invoiceService.getInvoicesNotPaid())
+  }
 }

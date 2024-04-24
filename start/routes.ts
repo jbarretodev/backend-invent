@@ -92,6 +92,7 @@ router
             router.get('/by-client/:id', [InvoicesController, 'getInvoicesByClient'])
             router.get('/generare-invoice/:id', [InvoicesController, 'generateInvoice'])
             router.get('/get-invoice', [InvoicesController, 'getInvoicePdf'])
+            router.get('/not-paid', [InvoicesController, 'getInvoicesNotPaid'])
           })
           .prefix('invoices')
           .use(middleware.auth({ guards: ['api'] }))

@@ -116,3 +116,8 @@ export interface CommerceCreate {
   phone: string
   identification: string
 }
+
+export interface PayDebt {
+  payment_method: string
+  num_operation: string
+}

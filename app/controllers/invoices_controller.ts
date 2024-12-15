@@ -176,4 +176,18 @@ export default class InvoicesController {
   async getInvoicesNotPaid(ctx: HttpContext) {
     return ctx.response.ok(await this.invoiceService.getInvoicesNotPaid())
   }
+
+  async payDebt(ctx: HttpContext) {
+    if (!ctx.request.param('id'))
+      return ctx.response.badRequest({ error: true, message: 'id missing' })
+
+    const { clientId, reference, paymentMethod } = ctx.request.all()
+
+    const rs = await this.invoiceService.payDebt(Number(ctx.request.param('id')), {
+      num_operation: reference,
+      payment_method: paymentMethod,
+    })
+
+    return rs ? ctx.response.ok(rs) : ctx.response.badRequest({ error: true, message: 'error' })
+  }
 }

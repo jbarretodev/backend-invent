@@ -1,5 +1,5 @@
 import Invoice from '#models/invoice'
-import { InvoiceCreate } from '../@types/index.js'
+import { InvoiceCreate, PayDebt } from '../@types/index.js'
 import { DateTime } from 'luxon'
 
 export default class InvoiceService {
@@ -48,5 +48,22 @@ export default class InvoiceService {
 
   async getInvoicesNotPaid() {
     return await Invoice.query().where('status', false).preload('client').preload('user')
+  }
+
+  async payDebt(id: number, params: PayDebt) {
+    const invoice = await Invoice.find(id)
+
+    if (!invoice) return false
+
+    invoice.status = true
+    invoice.payment_method = params.payment_method
+    invoice.num_operation = params.num_operation
+
+    await invoice.load('user')
+    await invoice.load('detail_invoice', (query) => {
+      query.preload('products')
+    })
+
+    return (await invoice.save()).refresh()
   }
 }

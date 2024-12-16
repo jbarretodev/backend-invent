@@ -11,7 +11,7 @@
     "test": "node --loader ts-node/esm --enable-source-maps bin/test.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    " ": "tsc --noEmit"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",

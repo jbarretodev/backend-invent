@@ -16,6 +16,7 @@ import InvoicesController from '#controllers/invoices_controller'
 import ClientsController from '#controllers/clients_controller'
 import IvasController from '#controllers/ivas_controller'
 import InfoCommercesController from '#controllers/info_commerces_controller'
+import ReportController from '#controllers/reports_controller'
 
 router.get('/', async () => {
   return {
@@ -92,7 +93,7 @@ router
             router.get('/by-client/:id', [InvoicesController, 'getInvoicesByClient'])
             router.get('/generare-invoice/:id', [InvoicesController, 'generateInvoice'])
             router.get('/get-invoice', [InvoicesController, 'getInvoicePdf'])
-            router.get( '/not-paid', [ InvoicesController, 'getInvoicesNotPaid' ] )
+            router.get('/not-paid', [InvoicesController, 'getInvoicesNotPaid'])
             router.patch('/:id/pay-debt', [InvoicesController, 'payDebt'])
           })
           .prefix('invoices')
@@ -125,6 +126,20 @@ router
             router.post('/', [InfoCommercesController, 'updateInfoCommerce'])
           })
           .prefix('commerce')
+          .use(middleware.auth({ guards: ['api'] }))
+
+        router
+          .group(() => {
+            router.get('/report-sells', [ReportController, 'getReportSell'])
+          })
+          .prefix('report')
+          .use(middleware.auth({ guards: ['api'] }))
+
+        router
+          .group(() => {
+            router.get('/report-best-salling', [ReportController, 'getReportBestSellingProduct'])
+          })
+          .prefix('report')
           .use(middleware.auth({ guards: ['api'] }))
       })
       .prefix('v1')

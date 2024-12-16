@@ -180,7 +180,7 @@ export default class InvoicesController {
   async payDebt(ctx: HttpContext) {
     if (!ctx.request.param('id'))
       return ctx.response.badRequest({ error: true, message: 'id missing' })
-
+    //testing
     const { reference, paymentMethod } = ctx.request.all()
 
     const rs = await this.invoiceService.payDebt(Number(ctx.request.param('id')), {

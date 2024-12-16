@@ -1,1 +1,0 @@
-{"version":3,"file":"force_json_response_middleware.js","sourceRoot":"","sources":["../../../app/middleware/force_json_response_middleware.ts"],"names":[],"mappings":"AAQA,MAAM,CAAC,OAAO,OAAO,2BAA2B;IAC9C,KAAK,CAAC,MAAM,CAAC,EAAE,OAAO,EAAe,EAAE,IAAY;QACjD,MAAM,OAAO,GAAG,OAAO,CAAC,OAAO,EAAE,CAAA;QACjC,OAAO,CAAC,MAAM,GAAG,kBAAkB,CAAA;QAEnC,OAAO,IAAI,EAAE,CAAA;IACf,CAAC;CACF"}

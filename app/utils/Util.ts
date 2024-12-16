@@ -39,8 +39,8 @@ export default class Util {
     generateFooterPDF(doc)
 
     doc.end()
-    doc.pipe( fs.createWriteStream( filePath ) )
-    
-    return true;
+    doc.pipe(fs.createWriteStream(filePath))
+
+    return true
   }
 }

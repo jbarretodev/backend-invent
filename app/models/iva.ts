@@ -10,7 +10,7 @@ export default class Iva extends BaseModel {
 
   @column()
   declare active: boolean
-  
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

@@ -1,0 +1,1 @@
+{"version":3,"file":"invoice_detail_service.js","sourceRoot":"","sources":["../../../app/services/invoice_detail_service.ts"],"names":[],"mappings":"AAAA,OAAO,aAAa,MAAM,wBAAwB,CAAA;AAGlD,MAAM,CAAC,OAAO,OAAO,oBAAoB;IACvC,KAAK,CAAC,UAAU,CAAC,SAA0B;QACzC,OAAO,MAAM,aAAa,CAAC,UAAU,CAAC,SAAS,CAAC,CAAA;IAClD,CAAC;CACF"}

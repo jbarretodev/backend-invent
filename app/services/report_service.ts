@@ -1,4 +1,5 @@
 import Invoice from '#models/invoice'
+import Product from '#models/product'
 import db from '@adonisjs/lucid/services/db'
 
 export default class ReportService {
@@ -18,5 +19,18 @@ export default class ReportService {
       .whereBetween('invoices.date', [dateInit, dateEnd])
       .groupBy('products.name')
       .orderBy('total_sales', 'desc')
+  }
+
+  async reportInventory(dateInit: string, dateEnd: string) {
+    const products = await Product.query()
+      .select('name', 'quantity', 'created_at')
+      .whereBetween('created_at', [dateInit, dateEnd])
+      .orderBy('created_at', 'desc')
+
+    return products.map((product) => ({
+      name: product.name,
+      value: product.quantity,
+      date: product.createdAt,
+    }))
   }
 }

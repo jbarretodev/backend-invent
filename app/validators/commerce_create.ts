@@ -6,5 +6,6 @@ export const commerceCreate = vine.compile(
     address: vine.string(),
     phone: vine.string(),
     identification: vine.string(),
+    dolarRate: vine.number(),
   })
 )

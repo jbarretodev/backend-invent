@@ -1,5 +1,5 @@
 import User from '#models/user'
-import { UserCreate } from '../@types/index.js'
+import { UserCreate, UserUpdate } from '../@types/index.js'
 import hash from '@adonisjs/core/services/hash'
 
 export default class UserService {
@@ -50,5 +50,19 @@ export default class UserService {
 
   async deleteUser(email: string) {
     return await User.query().where('email', email).delete()
+  }
+
+  async getUsers() {
+    return await User.all()
+  }
+
+  async updateUser(user: UserUpdate, id: number) {
+    const rsUser = await User.find(id)
+
+    console.log(user)
+
+    if (!rsUser) return undefined
+
+    return await rsUser.merge(user).save()
   }
 }

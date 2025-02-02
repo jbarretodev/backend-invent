@@ -9,4 +9,8 @@ export default class InfoCommerceServide {
   async updateInfoCommerce(data: CommerceCreate) {
     return await InfoCommerce.updateOrCreate({ identification: data.identification }, data)
   }
+
+  async getDolarRate() {
+    return await InfoCommerce.query().select('dolar_rate').first()
+  }
 }

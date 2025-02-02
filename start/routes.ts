@@ -17,6 +17,7 @@ import ClientsController from '#controllers/clients_controller'
 import IvasController from '#controllers/ivas_controller'
 import InfoCommercesController from '#controllers/info_commerces_controller'
 import ReportController from '#controllers/reports_controller'
+import RolesController from '#controllers/roles_controller'
 
 router.get('/', async () => {
   return {
@@ -46,6 +47,9 @@ router
         router
           .group(() => {
             router.post('/', [UsersController, 'createUser'])
+            router.patch('/:id', [UsersController, 'updateUser'])
+            router.get('/', [UsersController, 'getUsers'])
+            router.get('/:id', [UsersController, 'getUser'])
             router.patch('/update-password', [UsersController, 'changePasswordUser'])
           })
           .prefix('users')
@@ -123,24 +127,33 @@ router
         router
           .group(() => {
             router.get('/', [InfoCommercesController, 'getInfoCommerce'])
-            router.post('/', [InfoCommercesController, 'updateInfoCommerce'])
+            router.post( '/', [ InfoCommercesController, 'updateInfoCommerce' ] )
+            router.get('/dolar-rate', [InfoCommercesController, 'getDolarRate'])
           })
           .prefix('commerce')
           .use(middleware.auth({ guards: ['api'] }))
 
+        //group to report
         router
           .group(() => {
             router.get('/report-sells', [ReportController, 'getReportSell'])
+            router.get('/report-best-salling', [ReportController, 'getReportBestSellingProduct'])
+            router.get('/report-inventory', [ReportController, 'getReportInventory'])
           })
           .prefix('report')
           .use(middleware.auth({ guards: ['api'] }))
 
+        //group to roles
         router
           .group(() => {
-            router.get('/report-best-salling', [ReportController, 'getReportBestSellingProduct'])
+            router.post('/', [RolesController, 'createRole'])
+            router.patch('/:id', [RolesController, 'updateRole'])
+            router.delete('/:id', [RolesController, 'deleteRole'])
+            router.get('/', [RolesController, 'getRoles'])
+            router.get('/:id', [RolesController, 'getRole'])
           })
-          .prefix('report')
           .use(middleware.auth({ guards: ['api'] }))
+          .prefix('roles')
       })
       .prefix('v1')
   })

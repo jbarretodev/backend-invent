@@ -21,4 +21,10 @@ export default class InfoCommercesController {
 
     return ctx.response.ok((await commerce.refresh()).serialize())
   }
+
+  async getDolarRate(ctx: HttpContext) {
+    const dolarRate = await this.infoCommerceService.getDolarRate()
+
+    return ctx.response.ok(dolarRate)
+  }
 }

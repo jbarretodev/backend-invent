@@ -5,6 +5,8 @@ export interface UserCreate {
   fullName: string
   email: string
   password: string
+  active: boolean
+  role_id: number
 }
 
 export interface ActiveTokenDe {
@@ -115,9 +117,31 @@ export interface CommerceCreate {
   address: string
   phone: string
   identification: string
+  dolarRate: number
 }
 
 export interface PayDebt {
   payment_method: string
   num_operation: string
+}
+
+export interface ReportBestSelling {
+  name: string
+  value: number
+}
+
+export interface ReportInventory {
+  name: string
+  value: number
+}
+
+export interface RoleCreate {
+  name: string
+}
+
+export interface UserUpdate {
+  id: number
+  fullName: string
+  email: string
+  role_id: number
 }

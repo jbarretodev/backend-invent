@@ -22,6 +22,7 @@ export default class AuthController {
     }
 
     const token = await User.accessTokens.create(user)
+    await user.load('role')
 
     return ctx.response.ok({
       user: user.serialize(),

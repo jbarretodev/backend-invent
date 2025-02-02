@@ -2,7 +2,7 @@ import UserService from '#services/user_service'
 import { createUserValidator } from '#validators/user'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
-import { UserCreate } from '../@types/index.js'
+import { UserCreate, UserUpdate } from '../@types/index.js'
 import encryption from '@adonisjs/core/services/encryption'
 import { ActiveTokenDe } from '../@types/index.js'
 import EmailUtil from '../utils/EmailUtils.js'
@@ -13,6 +13,7 @@ export default class UsersController {
   constructor(protected userService: UserService) {}
   async createUser(ctx: HttpContext) {
     const payload = await ctx.request.validateUsing(createUserValidator)
+    payload.active = true
 
     const userCreated = await this.userService.createUser(payload as UserCreate)
 
@@ -77,5 +78,27 @@ export default class UsersController {
     return !rs
       ? ctx.response.badRequest({ error: true, message: 'Error change password' })
       : ctx.response.noContent()
+  }
+
+  async getUser(ctx: HttpContext) {
+    const user = await this.userService.getUserById(ctx.params.id)
+
+    if (!user) return ctx.response.notFound({ error: true, message: 'User not found' })
+
+    return ctx.response.ok(user.serialize())
+  }
+
+  async getUsers(ctx: HttpContext) {
+    const users = await this.userService.getUsers()
+
+    return ctx.response.ok(users.map((user) => user.serialize()))
+  }
+
+  async updateUser(ctx: HttpContext) {
+    const user = await this.userService.updateUser(ctx.request.body() as UserUpdate, ctx.params.id)
+
+    if (!user) return ctx.response.notFound({ error: true, message: 'User not found' })
+
+    return ctx.response.ok(user.serialize())
   }
 }
